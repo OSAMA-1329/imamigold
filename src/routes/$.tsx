@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import App from "../App.jsx";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/$")({
   head: () => ({
     meta: [
       { title: "Business Communication Hub" },
