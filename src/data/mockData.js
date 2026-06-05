@@ -143,17 +143,6 @@ export const groupChats = [
       "Yes, full pallet.",
     ]),
   },
-  {
-    id: "grp-5", type: "group", name: "Wholesale Partners",
-    description: "Purchase coordination with wholesale vendors",
-    avatar: groupAvatar("wholesale"), category: "purchase-wholesale",
-    members: ["u-pur-1", "u-pur-3", "u-whl-1", "u-whl-2", "u-whl-3", "u-admin-1"],
-    pinned: false, unread: 0,
-    messages: seedMessages("u-pur-1", "u-whl-1", [
-      "October price sheets attached.",
-      "Reviewing now, will revert by Thursday.",
-    ]),
-  },
 ];
 
 export const notifications = [
