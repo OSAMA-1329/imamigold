@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useState, useCallback } from "react";
 import { users, directChats, groupChats, notifications as seedNotifs } from "../data/mockData";
 import { visibleChats } from "../utils/permissions";
+import { useAuth } from "./AuthContext.jsx";
 
 const AppContext = createContext(null);
 
@@ -12,14 +13,22 @@ const defaultUserByRole = {
 };
 
 export function AppProvider({ children, role = "admin" }) {
-  const [currentUserId, setCurrentUserId] = useState(defaultUserByRole[role]);
+  const { user: authUser } = useAuth();
+  // Auth user takes precedence; fall back to seed user for the role.
+  const currentUserId = authUser?.id && users.find((u) => u.id === authUser.id)
+    ? authUser.id
+    : defaultUserByRole[authUser?.role || role];
+
   const [chats, setChats] = useState([...directChats, ...groupChats]);
   const [activeChatId, setActiveChatId] = useState(null);
   const [notifs, setNotifs] = useState(seedNotifs);
   const [typing, setTyping] = useState(false);
   const [theme, setTheme] = useState("light");
 
-  const currentUser = useMemo(() => users.find((u) => u.id === currentUserId), [currentUserId]);
+  const currentUser = useMemo(
+    () => users.find((u) => u.id === currentUserId) || users[0],
+    [currentUserId]
+  );
 
   const myChats = useMemo(
     () => visibleChats(currentUser, chats).sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)),
@@ -71,6 +80,11 @@ export function AppProvider({ children, role = "admin" }) {
     setChats((prev) => prev.map((c) => (c.id === chatId ? { ...c, archived: !c.archived } : c)));
   }, []);
 
+  const deleteChat = useCallback((chatId) => {
+    setChats((prev) => prev.filter((c) => c.id !== chatId));
+    setActiveChatId((id) => (id === chatId ? null : id));
+  }, []);
+
   const createGroup = useCallback((data) => {
     const id = `grp-${Date.now()}`;
     setChats((prev) => [
@@ -96,9 +110,9 @@ export function AppProvider({ children, role = "admin" }) {
   }, []);
 
   const value = {
-    users, currentUser, currentUserId, setCurrentUserId,
+    users, currentUser, currentUserId,
     chats, myChats, activeChat, setActiveChatId,
-    sendMessage, deleteMessage, togglePin, toggleArchive, createGroup,
+    sendMessage, deleteMessage, togglePin, toggleArchive, deleteChat, createGroup,
     notifs, markNotifsRead,
     typing, setTyping,
     theme, setTheme,
