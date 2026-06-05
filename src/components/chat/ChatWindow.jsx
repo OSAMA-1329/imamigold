@@ -8,11 +8,11 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 export default function ChatWindow({ onToggleDetails }) {
-  const { activeChat, currentUser, sendMessage, deleteMessage, typing, setTyping } = useApp();
+  const { activeChat, currentUser, sendMessage, deleteMessage, deleteChat, togglePin, toggleArchive, typing, setTyping } = useApp();
   const [draft, setDraft] = useState("");
   const scrollRef = useRef(null);
 
