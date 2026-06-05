@@ -111,7 +111,7 @@ export function AppProvider({ children, role = "admin" }) {
 
   const value = {
     users, currentUser, currentUserId,
-    chats, myChats, activeChat, setActiveChatId,
+    chats, myChats, activeChat, activeChatId, setActiveChatId,
     sendMessage, deleteMessage, togglePin, toggleArchive, deleteChat, createGroup,
     notifs, markNotifsRead,
     typing, setTyping,
