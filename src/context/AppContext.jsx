@@ -36,8 +36,8 @@ export function AppProvider({ children, role = "admin" }) {
   );
 
   const activeChat = useMemo(
-    () => chats.find((c) => c.id === activeChatId) || myChats[0] || null,
-    [chats, activeChatId, myChats]
+    () => (activeChatId ? chats.find((c) => c.id === activeChatId) : null),
+    [chats, activeChatId]
   );
 
   const sendMessage = useCallback((chatId, text) => {
