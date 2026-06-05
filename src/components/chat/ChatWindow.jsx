@@ -104,6 +104,8 @@ export default function ChatWindow({ onToggleDetails }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+      </header>
+
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6 scrollbar-thin">
         <div className="mx-auto flex max-w-3xl flex-col gap-4">
