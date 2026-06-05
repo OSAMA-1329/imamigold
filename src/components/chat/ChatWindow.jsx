@@ -4,14 +4,14 @@ import { findUser } from "../../data/mockData";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Send, Paperclip, Smile, Mic, MoreVertical, Phone, Video, Info,
-  CheckCheck, Check, Pin, Reply, Trash2, Copy, Hash,
+  CheckCheck, Check, Pin, Reply, Trash2, Copy, Hash, ArrowLeft,
 } from "lucide-react";
 import { format } from "date-fns";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function ChatWindow({ onToggleDetails }) {
+export default function ChatWindow({ onToggleDetails, onBack }) {
   const { activeChat, currentUser, sendMessage, deleteMessage, deleteChat, togglePin, toggleArchive, typing, setTyping } = useApp();
   const [draft, setDraft] = useState("");
   const scrollRef = useRef(null);
@@ -22,7 +22,7 @@ export default function ChatWindow({ onToggleDetails }) {
 
   if (!activeChat) {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center bg-muted/30 p-8 text-center">
+      <div className="flex flex-1 flex-col items-center justify-center bg-muted/30 p-8 pb-24 text-center md:pb-8">
         <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-brand text-primary-foreground shadow-elegant">
           <Send className="h-7 w-7" />
         </div>
@@ -46,8 +46,17 @@ export default function ChatWindow({ onToggleDetails }) {
   };
 
   return (
-    <div className="flex flex-1 flex-col bg-background">
-      <header className="flex items-center gap-3 border-b border-border bg-card px-4 py-3">
+    <div className="flex h-full flex-1 flex-col bg-background">
+      <header className="flex items-center gap-2 border-b border-border bg-card px-3 py-3 md:gap-3 md:px-4">
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="-ml-1 rounded-lg p-2 text-muted-foreground hover:bg-accent md:hidden"
+            aria-label="Back"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+        )}
         <div className="relative">
           <Avatar className="h-10 w-10">
             <AvatarImage src={isGroup ? activeChat.avatar : other?.avatar} />
@@ -72,8 +81,8 @@ export default function ChatWindow({ onToggleDetails }) {
           </div>
         </div>
         <div className="flex items-center gap-1 text-muted-foreground">
-          <button className="rounded-lg p-2 hover:bg-accent" aria-label="Call"><Phone className="h-4 w-4" /></button>
-          <button className="rounded-lg p-2 hover:bg-accent" aria-label="Video"><Video className="h-4 w-4" /></button>
+          <button className="hidden rounded-lg p-2 hover:bg-accent sm:inline-flex" aria-label="Call"><Phone className="h-4 w-4" /></button>
+          <button className="hidden rounded-lg p-2 hover:bg-accent sm:inline-flex" aria-label="Video"><Video className="h-4 w-4" /></button>
           <button onClick={onToggleDetails} className="rounded-lg p-2 hover:bg-accent" aria-label="Details"><Info className="h-4 w-4" /></button>
           <DropdownMenu>
             <DropdownMenuTrigger className="rounded-lg p-2 hover:bg-accent" aria-label="More">

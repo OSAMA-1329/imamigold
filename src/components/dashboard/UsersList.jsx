@@ -1,5 +1,6 @@
 import { useApp } from "../../context/AppContext.jsx";
 import Sidebar from "../layout/Sidebar.jsx";
+import MobileBottomNav from "../layout/MobileBottomNav.jsx";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +10,7 @@ export default function UsersList() {
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto p-8 scrollbar-thin">
+      <main className="flex-1 overflow-y-auto p-4 pb-24 scrollbar-thin md:p-8 md:pb-8">
         <div className="mx-auto max-w-5xl">
           <h1 className="mb-1 text-2xl font-semibold">Users</h1>
           <p className="mb-6 text-sm text-muted-foreground">{users.length} accounts · {users.filter(u=>u.online).length} online</p>
@@ -35,6 +36,7 @@ export default function UsersList() {
           </div>
         </div>
       </main>
+      <MobileBottomNav />
     </div>
   );
 }
