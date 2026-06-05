@@ -1,5 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 import {
   MessageSquare, Users, Bell, LayoutDashboard, Search, Settings,
   LogOut, Hash, Pin, Archive, Sparkles, ShieldCheck,
@@ -33,9 +34,12 @@ const navByRole = {
 
 export default function Sidebar() {
   const { currentUser, role, notifs } = useApp();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const items = navByRole[role];
   const unreadCount = notifs.filter((n) => n.unread).length;
+  const handleSignOut = () => { signOut(); navigate("/auth", { replace: true }); };
 
   return (
     <aside className="hidden h-screen w-64 shrink-0 flex-col bg-[var(--color-sidebar)] text-[var(--color-sidebar-foreground)] md:flex">
@@ -118,9 +122,9 @@ export default function Sidebar() {
       </nav>
 
       <div className="border-t border-[var(--color-sidebar-border)] p-3">
-        <Link to="/" className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[var(--color-sidebar-foreground)]/70 hover:bg-[var(--color-sidebar-accent)]">
-          <LogOut className="h-4 w-4" /> Switch role
-        </Link>
+        <button onClick={handleSignOut} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-[var(--color-sidebar-foreground)]/70 hover:bg-[var(--color-sidebar-accent)]">
+          <LogOut className="h-4 w-4" /> Sign out
+        </button>
         <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-[var(--color-sidebar-foreground)]/70 hover:bg-[var(--color-sidebar-accent)]">
           <Settings className="h-4 w-4" /> Settings
         </button>
