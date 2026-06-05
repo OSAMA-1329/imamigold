@@ -75,9 +75,35 @@ export default function ChatWindow({ onToggleDetails }) {
           <button className="rounded-lg p-2 hover:bg-accent" aria-label="Call"><Phone className="h-4 w-4" /></button>
           <button className="rounded-lg p-2 hover:bg-accent" aria-label="Video"><Video className="h-4 w-4" /></button>
           <button onClick={onToggleDetails} className="rounded-lg p-2 hover:bg-accent" aria-label="Details"><Info className="h-4 w-4" /></button>
-          <button className="rounded-lg p-2 hover:bg-accent" aria-label="More"><MoreVertical className="h-4 w-4" /></button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="rounded-lg p-2 hover:bg-accent" aria-label="More">
+              <MoreVertical className="h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => togglePin(activeChat.id)}>
+                <Pin className="mr-2 h-4 w-4" />{activeChat.pinned ? "Unpin" : "Pin"} chat
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => toggleArchive(activeChat.id)}>
+                <Trash2 className="mr-2 h-4 w-4" />{activeChat.archived ? "Unarchive" : "Archive"}
+              </DropdownMenuItem>
+              {currentUser.role === "admin" && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="text-destructive focus:text-destructive"
+                    onClick={() => {
+                      if (confirm("Delete this chat for everyone? This cannot be undone.")) {
+                        deleteChat(activeChat.id);
+                      }
+                    }}
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />Delete chat (Admin)
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-      </header>
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6 scrollbar-thin">
         <div className="mx-auto flex max-w-3xl flex-col gap-4">
