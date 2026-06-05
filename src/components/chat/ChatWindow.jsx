@@ -81,8 +81,8 @@ export default function ChatWindow({ onToggleDetails, onBack }) {
           </div>
         </div>
         <div className="flex items-center gap-1 text-muted-foreground">
-          <button className="rounded-lg p-2 hover:bg-accent" aria-label="Call"><Phone className="h-4 w-4" /></button>
-          <button className="rounded-lg p-2 hover:bg-accent" aria-label="Video"><Video className="h-4 w-4" /></button>
+          <button className="hidden rounded-lg p-2 hover:bg-accent sm:inline-flex" aria-label="Call"><Phone className="h-4 w-4" /></button>
+          <button className="hidden rounded-lg p-2 hover:bg-accent sm:inline-flex" aria-label="Video"><Video className="h-4 w-4" /></button>
           <button onClick={onToggleDetails} className="rounded-lg p-2 hover:bg-accent" aria-label="Details"><Info className="h-4 w-4" /></button>
           <DropdownMenu>
             <DropdownMenuTrigger className="rounded-lg p-2 hover:bg-accent" aria-label="More">
