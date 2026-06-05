@@ -1,5 +1,6 @@
 import { useApp } from "../../context/AppContext.jsx";
 import Sidebar from "../layout/Sidebar.jsx";
+import MobileBottomNav from "../layout/MobileBottomNav.jsx";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -153,6 +154,7 @@ export default function AdminDashboard() {
           </div>
         </div>
       </main>
+      <MobileBottomNav />
     </div>
   );
 }
