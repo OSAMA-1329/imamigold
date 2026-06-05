@@ -32,7 +32,7 @@ export default function ChatList() {
   });
 
   return (
-    <div className="flex h-screen w-full max-w-sm flex-col border-r border-border bg-card md:w-80">
+    <div className="flex h-full w-full flex-col border-r border-border bg-card pb-16 md:pb-0">
       <div className="border-b border-border p-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-semibold">Messages</h2>
