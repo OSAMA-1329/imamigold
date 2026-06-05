@@ -80,6 +80,11 @@ export function AppProvider({ children, role = "admin" }) {
     setChats((prev) => prev.map((c) => (c.id === chatId ? { ...c, archived: !c.archived } : c)));
   }, []);
 
+  const deleteChat = useCallback((chatId) => {
+    setChats((prev) => prev.filter((c) => c.id !== chatId));
+    setActiveChatId((id) => (id === chatId ? null : id));
+  }, []);
+
   const createGroup = useCallback((data) => {
     const id = `grp-${Date.now()}`;
     setChats((prev) => [
@@ -105,9 +110,9 @@ export function AppProvider({ children, role = "admin" }) {
   }, []);
 
   const value = {
-    users, currentUser, currentUserId, setCurrentUserId,
+    users, currentUser, currentUserId,
     chats, myChats, activeChat, setActiveChatId,
-    sendMessage, deleteMessage, togglePin, toggleArchive, createGroup,
+    sendMessage, deleteMessage, togglePin, toggleArchive, deleteChat, createGroup,
     notifs, markNotifsRead,
     typing, setTyping,
     theme, setTheme,
