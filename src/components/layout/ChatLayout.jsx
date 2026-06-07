@@ -30,7 +30,8 @@ export default function ChatLayout() {
 
       {showDetails && <DetailsPanel onClose={() => setShowDetails(false)} />}
 
-      <MobileBottomNav />
+      {/* Hide bottom nav on mobile when a chat is open so the composer is visible (WhatsApp-style) */}
+      {!showChatOnMobile && <MobileBottomNav />}
     </div>
   );
 }
