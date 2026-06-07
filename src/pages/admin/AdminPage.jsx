@@ -10,7 +10,8 @@ export default function AdminPage() {
   return (
     <AppProvider role="admin">
       <Routes>
-        <Route index element={<AdminDashboard />} />
+        <Route index element={<ChatLayout />} />
+        <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="chats" element={<ChatLayout />} />
         <Route path="groups" element={<GroupsList />} />
         <Route path="users" element={<UsersList />} />
