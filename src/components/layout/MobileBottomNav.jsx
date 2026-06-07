@@ -7,10 +7,10 @@ import {
 
 const navByRole = {
   admin: [
-    { to: "/admin", icon: LayoutDashboard, label: "Home", end: true },
-    { to: "/admin/chats", icon: MessageSquare, label: "Chats" },
+    { to: "/admin", icon: MessageSquare, label: "Chats", end: true },
     { to: "/admin/groups", icon: Hash, label: "Groups" },
     { to: "/admin/users", icon: Users, label: "Users" },
+    { to: "/admin/dashboard", icon: LayoutDashboard, label: "Stats" },
     { to: "/admin/notifications", icon: Bell, label: "Alerts" },
   ],
   purchase: [
