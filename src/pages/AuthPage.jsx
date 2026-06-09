@@ -46,8 +46,8 @@ export default function AuthPage() {
             <Sparkles className="h-5 w-5 text-primary-foreground" />
           </div>
           <div>
-            <div className="text-lg font-semibold leading-tight">BizHub</div>
-            <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Business Communication</div>
+            <div className="text-lg font-semibold leading-tight">ImamiHub</div>
+            <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Gold Retail Management</div>
           </div>
         </div>
 
@@ -112,10 +112,10 @@ export default function AuthPage() {
               <div className="mb-1.5 font-medium text-foreground">Demo accounts (password: <code>password</code>)</div>
               <div className="grid grid-cols-2 gap-1.5">
                 {[
-                  ["Admin", "alex.morgan@bizhub.com"],
-                  ["Purchase", "sara.chen@bizhub.com"],
-                  ["Wholesale", "northwind.supply@bizhub.com"],
-                  ["Retail", "maya.reeves@bizhub.com"],
+                  ["Admin", "alex.morgan@imamihub.com"],
+                  ["Purchase", "sara.chen@imamihub.com"],
+                  ["Wholesale", "northwind.supply@imamihub.com"],
+                  ["Retail", "maya.reeves@imamihub.com"],
                 ].map(([l, e]) => (
                   <button key={e} type="button" onClick={() => quickFill(e)}
                     className="rounded-md border border-border bg-card px-2 py-1.5 text-left hover:bg-accent">

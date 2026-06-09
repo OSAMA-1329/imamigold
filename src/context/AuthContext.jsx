@@ -2,8 +2,8 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 import { users as seedUsers } from "../data/mockData";
 
 const AuthContext = createContext(null);
-const STORAGE_KEY = "bizhub.auth";
-const ACCOUNTS_KEY = "bizhub.accounts";
+const STORAGE_KEY = "imamihub.auth";
+const ACCOUNTS_KEY = "imamihub.accounts";
 
 // Seed default accounts (password: "password") so testers can log in immediately.
 const seedAccounts = () => {

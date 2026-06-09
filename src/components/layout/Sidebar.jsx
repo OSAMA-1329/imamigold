@@ -48,7 +48,7 @@ export default function Sidebar() {
           <Sparkles className="h-5 w-5 text-primary-foreground" />
         </div>
         <div>
-          <div className="text-sm font-semibold leading-tight">BizHub</div>
+          <div className="text-sm font-semibold leading-tight">ImamiHub</div>
           <div className="text-[11px] uppercase tracking-wider text-[var(--color-sidebar-foreground)]/60">
             Communication
           </div>
