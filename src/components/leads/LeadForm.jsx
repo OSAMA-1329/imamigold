@@ -10,13 +10,16 @@ const UNITS = ["MG", "GRAM", "KG"];
 const empty = {
   image: "", customerName: "", mobile: "",
   quantity: "", unit: "GRAM",
-  assignedTo: "", status: "New", remarks: "",
+  assignedTo: [], status: "New", remarks: "",
 };
 
 export default function LeadForm({ initial = null, onSaved }) {
   const { user } = useAuth();
   const { saveLead } = useLeads();
-  const [form, setForm] = useState(initial || empty);
+  const normalized = initial
+    ? { ...initial, assignedTo: Array.isArray(initial.assignedTo) ? initial.assignedTo : (initial.assignedTo ? [initial.assignedTo] : []) }
+    : empty;
+  const [form, setForm] = useState(normalized);
   const [errors, setErrors] = useState({});
   const [drag, setDrag] = useState(false);
   const [toast, setToast] = useState("");
@@ -47,22 +50,23 @@ export default function LeadForm({ initial = null, onSaved }) {
   };
 
   const validate = () => {
-    const e = {};
-    if (!form.customerName.trim()) e.customerName = "Customer name required";
-    if (!/^[+\d][\d\s-]{6,15}$/.test(form.mobile.trim())) e.mobile = "Valid mobile required";
-    if (!form.quantity || Number(form.quantity) <= 0) e.quantity = "Quantity must be > 0";
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    setErrors({});
+    return true;
+  };
+
+  const toggleStaff = (id) => {
+    setForm((f) => ({
+      ...f,
+      assignedTo: f.assignedTo.includes(id)
+        ? f.assignedTo.filter((s) => s !== id)
+        : [...f.assignedTo, id],
+    }));
   };
 
   const submit = (assign) => (ev) => {
     ev.preventDefault();
     if (!validate()) return;
-    if (assign && !form.assignedTo) {
-      setErrors((e) => ({ ...e, assignedTo: "Select a staff to assign" }));
-      return;
-    }
-    const id = saveLead({ ...form, status: assign ? (form.status === "New" ? "Contacted" : form.status) : form.status });
+    const id = saveLead({ ...form, status: assign && form.assignedTo.length && form.status === "New" ? "Contacted" : form.status });
     setToast(assign ? "Lead assigned successfully" : "Lead saved");
     setTimeout(() => setToast(""), 2400);
     if (!initial) setForm(empty);
