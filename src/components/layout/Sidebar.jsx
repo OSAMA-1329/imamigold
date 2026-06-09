@@ -3,7 +3,7 @@ import { useApp } from "../../context/AppContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import {
   MessageSquare, Users, Bell, LayoutDashboard, Search, Settings,
-  LogOut, Hash, Pin, Archive, Sparkles, ShieldCheck,
+  LogOut, Hash, Pin, Archive, Sparkles, ShieldCheck, Coins,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,7 @@ const navByRole = {
   admin: [
     { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
     { to: "/admin/chats", icon: MessageSquare, label: "Chats" },
+    { to: "/admin/leads", icon: Coins, label: "Leads" },
     { to: "/admin/groups", icon: Hash, label: "Groups" },
     { to: "/admin/users", icon: Users, label: "Users" },
     { to: "/admin/notifications", icon: Bell, label: "Notifications" },
@@ -27,6 +28,7 @@ const navByRole = {
   ],
   retail: [
     { to: "/retail", icon: MessageSquare, label: "Chats", end: true },
+    { to: "/retail/leads", icon: Coins, label: "My Leads" },
     { to: "/retail/groups", icon: Hash, label: "Groups" },
     { to: "/retail/notifications", icon: Bell, label: "Notifications" },
   ],
