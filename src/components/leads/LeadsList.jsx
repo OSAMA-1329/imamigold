@@ -20,11 +20,16 @@ export default function LeadsList({ basePath }) {
   const isAdmin = user?.role === "admin";
 
   const visible = useMemo(() => {
-    const list = isAdmin ? leads : leads.filter((l) => l.assignedTo === user?.id);
+    const assignees = (l) => Array.isArray(l.assignedTo) ? l.assignedTo : (l.assignedTo ? [l.assignedTo] : []);
+    const list = isAdmin ? leads : leads.filter((l) => assignees(l).includes(user?.id));
     return filter === "All" ? list : list.filter((l) => l.status === filter);
   }, [leads, isAdmin, user, filter]);
 
-  const staffName = (id) => users.find((u) => u.id === id)?.name || "—";
+  const staffNames = (val) => {
+    const ids = Array.isArray(val) ? val : (val ? [val] : []);
+    if (ids.length === 0) return "None";
+    return ids.map((id) => users.find((u) => u.id === id)?.name || "—").join(", ");
+  };
 
   return (
     <div className="mx-auto w-full max-w-6xl p-4 sm:p-6">
