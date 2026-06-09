@@ -1,4 +1,4 @@
-// Mock data for Business Communication Hub
+// Mock data for Imami Gold Retail Hub
 const now = Date.now();
 const m = (mins) => new Date(now - mins * 60000).toISOString();
 
@@ -7,7 +7,7 @@ const groupAvatar = (seed) => `https://api.dicebear.com/7.x/shapes/svg?seed=${se
 
 const make = (id, name, role, dept, online = false) => ({
   id, name, role, dept,
-  email: `${name.toLowerCase().replace(/\s+/g, ".")}@bizhub.com`,
+  email: `${name.toLowerCase().replace(/\s+/g, ".")}@imamihub.com`,
   avatar: avatar(name),
   online,
   lastSeen: online ? m(0) : m(Math.floor(Math.random() * 240) + 5),
