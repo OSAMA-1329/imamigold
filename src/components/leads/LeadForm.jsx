@@ -10,13 +10,16 @@ const UNITS = ["MG", "GRAM", "KG"];
 const empty = {
   image: "", customerName: "", mobile: "",
   quantity: "", unit: "GRAM",
-  assignedTo: "", status: "New", remarks: "",
+  assignedTo: [], status: "New", remarks: "",
 };
 
 export default function LeadForm({ initial = null, onSaved }) {
   const { user } = useAuth();
   const { saveLead } = useLeads();
-  const [form, setForm] = useState(initial || empty);
+  const normalized = initial
+    ? { ...initial, assignedTo: Array.isArray(initial.assignedTo) ? initial.assignedTo : (initial.assignedTo ? [initial.assignedTo] : []) }
+    : empty;
+  const [form, setForm] = useState(normalized);
   const [errors, setErrors] = useState({});
   const [drag, setDrag] = useState(false);
   const [toast, setToast] = useState("");
@@ -47,22 +50,23 @@ export default function LeadForm({ initial = null, onSaved }) {
   };
 
   const validate = () => {
-    const e = {};
-    if (!form.customerName.trim()) e.customerName = "Customer name required";
-    if (!/^[+\d][\d\s-]{6,15}$/.test(form.mobile.trim())) e.mobile = "Valid mobile required";
-    if (!form.quantity || Number(form.quantity) <= 0) e.quantity = "Quantity must be > 0";
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    setErrors({});
+    return true;
+  };
+
+  const toggleStaff = (id) => {
+    setForm((f) => ({
+      ...f,
+      assignedTo: f.assignedTo.includes(id)
+        ? f.assignedTo.filter((s) => s !== id)
+        : [...f.assignedTo, id],
+    }));
   };
 
   const submit = (assign) => (ev) => {
     ev.preventDefault();
     if (!validate()) return;
-    if (assign && !form.assignedTo) {
-      setErrors((e) => ({ ...e, assignedTo: "Select a staff to assign" }));
-      return;
-    }
-    const id = saveLead({ ...form, status: assign ? (form.status === "New" ? "Contacted" : form.status) : form.status });
+    const id = saveLead({ ...form, status: assign && form.assignedTo.length && form.status === "New" ? "Contacted" : form.status });
     setToast(assign ? "Lead assigned successfully" : "Lead saved");
     setTimeout(() => setToast(""), 2400);
     if (!initial) setForm(empty);
@@ -157,16 +161,43 @@ export default function LeadForm({ initial = null, onSaved }) {
 
         {/* Section 3 */}
         <Card title="Lead Assignment" accent icon={UserCheck}>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-4">
             <div>
-              <Label>Assigned Retail Staff {!isAdmin && <span className="text-xs font-normal text-muted-foreground">(view only)</span>}</Label>
-              <select value={form.assignedTo} onChange={(e) => set("assignedTo", e.target.value)}
-                disabled={!isAdmin}
-                className="h-11 w-full cursor-pointer rounded-lg border border-amber-200/70 bg-background px-4 text-sm shadow-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30 disabled:cursor-not-allowed disabled:opacity-60 dark:border-amber-500/30">
-                <option value="">— Select staff —</option>
-                {retailStaff.map((s) => <option key={s.id} value={s.id}>{s.name} · {s.dept}</option>)}
-              </select>
-              {errors.assignedTo && <Err>{errors.assignedTo}</Err>}
+              <Label>
+                Assignable Retail Staff{" "}
+                {!isAdmin && <span className="text-xs font-normal normal-case text-muted-foreground">(view only)</span>}
+                {isAdmin && form.assignedTo.length > 0 && (
+                  <span className="ml-2 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                    {form.assignedTo.length} selected
+                  </span>
+                )}
+              </Label>
+              <div className="max-h-64 overflow-y-auto rounded-lg border border-amber-200/70 bg-background p-2 shadow-sm dark:border-amber-500/30">
+                {retailStaff.length === 0 ? (
+                  <p className="p-3 text-sm text-muted-foreground">No staff available.</p>
+                ) : (
+                  <div className="grid gap-1 sm:grid-cols-2">
+                    {retailStaff.map((s) => {
+                      const checked = form.assignedTo.includes(s.id);
+                      return (
+                        <label key={s.id}
+                          className={`flex cursor-pointer items-center gap-2 rounded-md border px-3 py-2 text-sm transition ${
+                            checked ? "border-amber-500 bg-amber-50 dark:bg-amber-500/10" : "border-transparent hover:bg-muted"
+                          } ${!isAdmin ? "cursor-not-allowed opacity-70" : ""}`}>
+                          <input type="checkbox" checked={checked} disabled={!isAdmin}
+                            onChange={() => toggleStaff(s.id)}
+                            className="h-4 w-4 cursor-pointer accent-amber-500" />
+                          <span className="flex-1 truncate">
+                            <span className="font-medium">{s.name}</span>
+                            <span className="ml-1 text-xs text-muted-foreground">· {s.dept}</span>
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">Leave all unchecked to keep this lead unassigned (None).</p>
             </div>
             <div>
               <Label>Lead Status</Label>
