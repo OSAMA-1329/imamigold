@@ -91,7 +91,7 @@ export default function LeadsList({ basePath }) {
               </div>
               <div className="border-t border-amber-100/60 bg-amber-50/30 px-4 py-2.5 text-xs dark:border-amber-500/10 dark:bg-amber-500/5">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Assigned: <span className="font-medium text-foreground">{staffName(l.assignedTo)}</span></span>
+                  <span className="text-muted-foreground">Assigned: <span className="font-medium text-foreground">{staffNames(l.assignedTo)}</span></span>
                   {isAdmin && (
                     <div className="flex gap-1">
                       <Link to={`${basePath}/${l.id}`} className="rounded p-1 hover:bg-amber-100 dark:hover:bg-amber-500/20"><Pencil className="h-3.5 w-3.5" /></Link>
