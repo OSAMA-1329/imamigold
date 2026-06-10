@@ -2,15 +2,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import {
-  MessageSquare, Users, Bell, LayoutDashboard, Hash, LogOut,
+  MessageSquare, Users, Bell, LayoutDashboard, Hash, LogOut, Coins,
 } from "lucide-react";
 
 const navByRole = {
   admin: [
-    { to: "/admin", icon: MessageSquare, label: "Chats", end: true },
+    { to: "/admin", icon: LayoutDashboard, label: "Home", end: true },
+    { to: "/admin/chats", icon: MessageSquare, label: "Chats" },
+    { to: "/admin/leads", icon: Coins, label: "Leads" },
     { to: "/admin/groups", icon: Hash, label: "Groups" },
-    { to: "/admin/users", icon: Users, label: "Users" },
-    { to: "/admin/dashboard", icon: LayoutDashboard, label: "Stats" },
     { to: "/admin/notifications", icon: Bell, label: "Alerts" },
   ],
   purchase: [
@@ -24,6 +24,7 @@ const navByRole = {
   ],
   retail: [
     { to: "/retail", icon: MessageSquare, label: "Chats", end: true },
+    { to: "/retail/leads", icon: Coins, label: "Leads" },
     { to: "/retail/groups", icon: Hash, label: "Groups" },
     { to: "/retail/notifications", icon: Bell, label: "Alerts" },
   ],
